@@ -24,8 +24,8 @@ class ParkingServiceTest {
         ParkingService parkingService = new ParkingService();
          parkingService.addVehicle("MH 14 LK 1234");
          parkingService.addVehicle("MH 14 LK 1235");
-        List<Vehicle> cars = parkingService.getVehicles();
-        Assertions.assertThat(cars.size()).isEqualTo(2);
+        List<Vehicle> vehicles = parkingService.getVehicles();
+        Assertions.assertThat(vehicles.size()).isEqualTo(2);
 
     }
 
