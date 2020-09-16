@@ -1,6 +1,6 @@
 package com.kylas.parkingapplication.controller;
 
-import com.kylas.parkingapplication.entities.Car;
+import com.kylas.parkingapplication.entities.Vehicle;
 import com.kylas.parkingapplication.exceptions.ParkingLotException;
 import com.kylas.parkingapplication.services.ParkingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,16 +19,14 @@ public class MyController
         return "Welcome to my Parking Service";
     }
 
-    //Get all cars
-    @GetMapping("/allCars")
-    public List<Car> getCars()
+    @GetMapping("/vehicles")
+    public List<Vehicle> getVehicles()
     {
-    return this.parkingService.getCars();
+    return this.parkingService.getVehicles();
     }
 
-    @PostMapping("/allCars")
-    public List addCar(@RequestParam(value = "carNo") String carNo) throws ParkingLotException {
-            //System.out.println(carNo);
-             return this.parkingService.addCar(carNo);
+    @PostMapping("/vehicles")
+    public List addVehicle(@RequestParam(value = "vehicle_no") String vehicle_no) throws ParkingLotException {
+             return this.parkingService.addVehicle(vehicle_no);
     }
 }

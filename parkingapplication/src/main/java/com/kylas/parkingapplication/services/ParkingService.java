@@ -1,6 +1,6 @@
 package com.kylas.parkingapplication.services;
 
-import com.kylas.parkingapplication.entities.Car;
+import com.kylas.parkingapplication.entities.Vehicle;
 import com.kylas.parkingapplication.exceptions.ParkingLotException;
 import org.springframework.stereotype.Service;
 
@@ -10,22 +10,22 @@ import java.util.List;
 @Service
 public class ParkingService {
 
-    private List<Car> list=new ArrayList<>();
-    static int counter=0;
+    private List<Vehicle> vehicles=new ArrayList<>();
+    static int parking_slot_no=0;
 
 
 
 
-    public List<Car> getCars() {
-        return list;
+    public List<Vehicle> getVehicles() {
+        return vehicles;
     }
 
-    public List addCar(String carNo) throws ParkingLotException {
-        counter++;
-        if(counter<9) {
-            list.add(new Car(counter,carNo));
+    public List addVehicle(String vehicle_no) throws ParkingLotException {
+        parking_slot_no++;
+        if(parking_slot_no<=10) {
+            vehicles.add(new Vehicle(parking_slot_no,vehicle_no));
 
-            return list;
+            return vehicles;
         }
       else
         {
