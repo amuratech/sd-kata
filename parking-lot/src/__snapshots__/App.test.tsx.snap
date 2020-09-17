@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App component testing renders correctly 1`] = `
+<div
+  className="App"
+>
+  <h1
+    className="heading"
+  >
+    Parking Lot
+  </h1>
+  <div>
+    <table
+      className="parkingTable"
+    >
+      <tbody>
+        <tr>
+          <th>
+            Vehicle Number
+          </th>
+          <th>
+            Slot Number
+          </th>
+        </tr>
+      </tbody>
+    </table>
+    <button
+      className="addNewCarButton"
+      onClick={[Function]}
+    >
+      Add
+    </button>
+  </div>
+</div>
+`;

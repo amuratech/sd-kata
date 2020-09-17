@@ -1,0 +1,23 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+parking-lot/node_modules
+parking-lot/.pnp
+parking-lot/.pnp.js
+
+# testing
+parking-lot/coverage
+
+# production
+parking-lot/build
+
+# misc
+parking-lot/.DS_Store
+parking-lot/.env.local
+parking-lot/.env.development.local
+parking-lot/.env.test.local
+parking-lot/.env.production.local
+
+parking-lot/npm-debug.log*
+parking-lot/yarn-debug.log*
+parking-lot/yarn-error.log*

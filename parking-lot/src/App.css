@@ -1,0 +1,14 @@
+.App {
+  text-align: center;
+}
+
+.heading{
+  background-color: rgb(158, 84, 177);
+  color: white;
+  margin-top: 0;
+  margin-bottom: 20px;
+  padding:3% 0;
+  font-size: 3rem;
+  position: sticky;
+  top:0;
+}
