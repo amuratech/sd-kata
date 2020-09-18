@@ -23,20 +23,3 @@
     margin-top:12%;
 }
 
-table.parkingTable{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    border-collapse: collapse;
-}
-th,td{
-    border: 3px ridge #000000;
-    padding: 0.5rem 3rem;
-    border-radius: 5px;
-}
-tr:hover {background-color: #d6d4d4dc;}
-
-th{
-    font-size:1.2rem;
-    background-color: #aca9a9dc;
-}

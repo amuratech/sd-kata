@@ -10,7 +10,7 @@ parking-lot/coverage
 
 # production
 parking-lot/build
-
+parking-lot/build.zip
 # misc
 parking-lot/.DS_Store
 parking-lot/.env.local
@@ -21,3 +21,5 @@ parking-lot/.env.production.local
 parking-lot/npm-debug.log*
 parking-lot/yarn-debug.log*
 parking-lot/yarn-error.log*
+
+parking-lot/tmp

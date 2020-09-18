@@ -1,18 +1,16 @@
 import React from 'react'
-import '../css/GetTicketPopUpStyles.css'
+import '../css/GetTicketStyles.css'
 import axios from "axios"
-import {Modal, Button} from 'react-bootstrap';
 
-interface GetTicketPopUpState{
+
+interface GetTicketState{
     vehicleNo: string;
     parkingSlot: number;
     isSlotSet:boolean;
 }
-interface GetTicketPopUpProps{
-    onClose: () => void
-}
-class GetTicketPopUp extends React.Component<GetTicketPopUpProps, GetTicketPopUpState>{
-    constructor(props:GetTicketPopUpProps) {
+
+class GetTicket extends React.Component<{}, GetTicketState>{
+    constructor(props:any) {
         super(props)
     
         this.state = {
@@ -67,22 +65,17 @@ class GetTicketPopUp extends React.Component<GetTicketPopUpProps, GetTicketPopUp
             message = "The parking lot is full"
         }
         else{
-            message = `Your parking slot number is ${this.state.parkingSlot}`
+            message = `Welcome ${this.state.vehicleNo}, your parking slot number is ${this.state.parkingSlot}`
         }
         return (
             isSlotSet ? 
-            <Modal show={true} centered >
-                <Modal.Body as="h2">{message}</Modal.Body>
-                <Modal.Footer>
-                    <Button onClick = {this.props.onClose}>Close</Button>
-                </Modal.Footer>
-            </Modal>
-            :<div className="popUpDiv">
-                <input type="text" placeholder="License plate number" value={vehicleNo} onChange={this.handleVehicleNoInput}/>
-                <button className="getTicketButton" onClick={this.getTicket}>Get Ticket</button>
-            </div>
+                <h2>{message}</h2>
+                :<div className="popUpDiv">
+                    <input type="text" placeholder="License plate number" value={vehicleNo} onChange={this.handleVehicleNoInput}/>
+                    <button className="getTicketButton" onClick={this.getTicket}>Get Ticket</button>
+                </div>
         )
     }
 }
 
-export default GetTicketPopUp
+export default GetTicket

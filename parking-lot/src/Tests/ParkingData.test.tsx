@@ -10,7 +10,7 @@ describe("ParkingData component testing", () => {
     
     it("should have table", () => {
         const wrapper = shallow(<ParkingData />);
-        expect(wrapper.exists('table')).toBe(true);
+        expect(wrapper.exists('ParkingTable')).toBe(true);
       });
     
     it("should contain an button with text Add", () => {
@@ -20,17 +20,11 @@ describe("ParkingData component testing", () => {
         expect(text).toBe("Add");         
     });
 
-    it("table should have two columns", () => {
-        const wrapper = shallow(<ParkingData />);
-        expect(wrapper.find("table th")).toHaveLength(2);
-
-    });
-
-    it("a getTicketPopUp should pop when add button is clicked", () => {
+    it("a PopUp should pop when add button is clicked", () => {
         const wrapper = shallow(<ParkingData />);
         const button = wrapper.find(".addNewCarButton");
         button.simulate('click');
         wrapper.update();
-        expect(wrapper.exists('GetTicketPopUp')).toBe(true);
+        expect(wrapper.exists('PopUp')).toBe(true);
     });
 });

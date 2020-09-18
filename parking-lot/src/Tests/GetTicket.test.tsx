@@ -2,15 +2,14 @@ import React from 'react';
 
 import {configure, shallow } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
-import GetTicketPopUp from '../components/GetTicketPopUp';
+import GetTicket from '../components/GetTicket';
 
 configure({adapter: new Adapter()});
 
-describe("GetTicketPopUp component testing", () => {
+describe("GetTicket component testing", () => {
     let wrapper:any;
-    const onClose = jest.fn()
     beforeEach(() => {
-        wrapper = shallow(<GetTicketPopUp onClose = {onClose}/>);
+        wrapper = shallow(<GetTicket />);
     })
     it("should contain an button with text Get Ticket", () => {
         const button = wrapper.find(".getTicketButton");

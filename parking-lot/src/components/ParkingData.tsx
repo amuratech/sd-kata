@@ -1,7 +1,9 @@
 import React from 'react'
 import axios from "axios"
-import GetTicketPopUp from "./GetTicketPopUp"
 import '../css/ParkingDataStyles.css'
+
+import ParkingTable from "./ParkingTable"
+import PopUp from './PopUp'
 
 interface ParkingDataState{
     slotList: Array<Slot>
@@ -58,30 +60,15 @@ class ParkingData extends React.Component<{}, ParkingDataState>{
 
     render() {
         const {slotList, showPopUp} = this.state;
-        return showPopUp ? 
+        return (
             <React.Fragment>
-                <GetTicketPopUp onClose = {this.onCloseModal}/>  
-            </React.Fragment>:
-            <div>
-                <table className="parkingTable">
-                    <tbody>
-                        <tr>
-                            <th>Vehicle Number</th>
-                            <th>Slot Number</th>
-                        </tr>
-                    
-                        {slotList.map(slot => {
-                            return (
-                                <tr key={slot.parkingSlot}>
-                                    <td>{slot.vehicleNo}</td>
-                                    <td>{slot.parkingSlot}</td>
-                                </tr>
-                            )
-                        })}
-                    </tbody>
-                </table>
-                <button className="addNewCarButton"onClick={this.toggleGetTicketPopUp}>Add</button>  
-            </div>
+                <PopUp onClose={this.onCloseModal} showPopUp = {showPopUp}/>
+                <div>
+                    <ParkingTable slotList={slotList} />
+                    <button className="addNewCarButton"onClick={this.toggleGetTicketPopUp}>Add</button>  
+                </div>
+            </React.Fragment>
+        )
     }
 }
 
