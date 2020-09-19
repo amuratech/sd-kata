@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.lang.annotation.Annotation;
 
-@ResponseStatus(value = HttpStatus.BAD_REQUEST,reason = "Parking Lot is full")
 public class ParkingLotException extends RuntimeException {
 
     public enum ExceptionType {
