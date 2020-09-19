@@ -1,8 +1,12 @@
 package com.kylas.parkingapplication.entities;
 
+import org.springframework.http.HttpStatus;
+
 public class Vehicle {
     private int parkingSlot;
     private String vehicleNo;
+
+
 
     public int getParkingSlot() {
         return parkingSlot;
