@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.util.ReflectionTestUtils;
 
+
 @SpringBootTest(classes = ParkingService.class)
 public class ParkingLotExceptionTest {
 

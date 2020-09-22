@@ -7,7 +7,6 @@ public class Vehicle {
     private String vehicleNo;
 
 
-
     public int getParkingSlot() {
         return parkingSlot;
     }
@@ -25,10 +24,10 @@ public class Vehicle {
     }
 
     public Vehicle() {
-        super();
+
     }
 
-    public Vehicle(int parkingSlot, String vehicleNo) {
+    public Vehicle(String vehicleNo,int parkingSlot) {
         this.parkingSlot = parkingSlot;
         this.vehicleNo = vehicleNo;
     }
