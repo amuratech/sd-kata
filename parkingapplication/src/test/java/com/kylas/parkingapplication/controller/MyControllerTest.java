@@ -20,14 +20,14 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @AutoConfigureMockMvc
@@ -36,7 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class MyControllerTest {
 
     @Autowired
-    private  MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @Autowired
     private MyController myController;
@@ -47,11 +47,9 @@ public class MyControllerTest {
     private static ObjectMapper mapper = new ObjectMapper();
 
 
-
-
     @Before
     public void setUp() {
-        mockMvc= MockMvcBuilders.standaloneSetup(myController)
+        mockMvc = MockMvcBuilders.standaloneSetup(myController)
                 .build();
     }
 
@@ -73,13 +71,11 @@ public class MyControllerTest {
         String json = mapper.writeValueAsString(vehicle);
         mockMvc
                 .perform(
-                post("/vehicles").queryParam("vehicleNo", vehicle.getVehicleNo()).contentType(MediaType.APPLICATION_JSON).characterEncoding("utf-8")
-                .content(json).accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
+                        post("/vehicles").queryParam("vehicleNo", vehicle.getVehicleNo()).contentType(MediaType.APPLICATION_JSON).characterEncoding("utf-8")
+                                .content(json).accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
                 .andExpect(jsonPath("$.parkingSlot", Matchers.equalTo(1)))
                 .andExpect(jsonPath("$.vehicleNo", Matchers.equalTo("MH 12 AJ 1234")));
     }
-
-
 
 
     @Test
@@ -94,16 +90,9 @@ public class MyControllerTest {
         mockVehicle2.setVehicleNo("MH 24 AJ 1235");
 
 
-
         List<Vehicle> vehicleList = new ArrayList<>();
         vehicleList.add(mockVehicle1);
         vehicleList.add(mockVehicle2);
-        //The above is just the part of response. Try making it simpler to read
-    //The same thing.
-        //given
-//        List<Vehicle> vehicleList = List.of(
-//                new Vehicle(1, "MH 24 AJ 1234"),
-//                new Vehicle(2, "MH 24 AJ 1235"));
 
         Mockito.when(parkingService.getVehicles()).thenReturn(vehicleList);
 
@@ -115,5 +104,31 @@ public class MyControllerTest {
 
 
     }
+
+//    @Test
+//    public void testExitVehicles() throws Exception {
+//
+//        Vehicle mockVehicle1 = new Vehicle();
+//        mockVehicle1.setParkingSlot(1);
+//        mockVehicle1.setVehicleNo("MH 24 AJ 1234");
+//
+//        Vehicle mockVehicle2 = new Vehicle();
+//        mockVehicle2.setParkingSlot(2);
+//        mockVehicle2.setVehicleNo("MH 24 AJ 1235");
+//
+//
+//        List<Vehicle> vehicleList = new ArrayList<>();
+//        vehicleList.add(mockVehicle1);
+//        vehicleList.add(mockVehicle2);
+//
+//
+//        //then
+//        mockMvc.perform(delete("/vehicles"))
+//                .andExpect(status().isOk())
+//                 .accept(MediaType.APPLICATION_JSON))
+//                .andExpect()
+//
+//
+//    }
 
 }
