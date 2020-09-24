@@ -4,7 +4,8 @@ import TableRow from "./TableRow"
 import  '../css/ParkingTableStyles.css'
 
 interface TableProps{
-    slotList: Array<Slot>
+    slotList: Array<Slot>;
+    onExit: (vehicleNo:string, slotNo:number) => void
 }
 
 function ParkingTable(props:TableProps) {
@@ -15,7 +16,7 @@ function ParkingTable(props:TableProps) {
                 {
                     props.slotList.map(slot => {
                         return (
-                            <TableRow key={slot.parkingSlot} slot={slot} />
+                            <TableRow key={slot.parkingSlot} slot={slot} onExit={props.onExit}/>
                         )
                     })
                 }

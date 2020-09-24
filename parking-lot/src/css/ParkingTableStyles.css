@@ -5,13 +5,21 @@ table.parkingTable{
     border-collapse: collapse;
 }
 th,td{
-    border: 3px ridge #000000;
-    padding: 0.5rem 3rem;
-    border-radius: 5px;
+    border: 3px solid #aca9a9dc;
+    padding: 0.3rem 2rem;
 }
 tr:hover {background-color: #d6d4d4dc;}
 
 th{
     font-size:1.2rem;
     background-color: #aca9a9dc;
+}
+
+button{
+    background-color: red;
+    color: white;
+    padding: 8px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size:1rem;
 }

@@ -1,12 +1,13 @@
 import React from 'react'
 import '../css/GetTicketStyles.css'
-import axios from "axios"
+import allocateSlot from '../Services/allocateSlot'
 
 
 interface GetTicketState{
     vehicleNo: string;
     parkingSlot: number;
     isSlotSet:boolean;
+    serverResponse: string;
 }
 
 class GetTicket extends React.Component<{}, GetTicketState>{
@@ -16,7 +17,8 @@ class GetTicket extends React.Component<{}, GetTicketState>{
         this.state = {
             vehicleNo:"",
             parkingSlot:-1,
-            isSlotSet:false 
+            isSlotSet:false,
+            serverResponse:""
         }
     }
 
@@ -27,16 +29,14 @@ class GetTicket extends React.Component<{}, GetTicketState>{
     }
    
     getTicket = () => {
-        axios.post(`/vehicles/?vehicleNo=${this.state.vehicleNo}`)
+        allocateSlot(this.state.vehicleNo)
             .then(res => {
                 const returnedSlot:Slot = res.data;
                 this.updateTheSlotNumber(returnedSlot.parkingSlot);
             })
             .catch((error) =>{
                 if (error.response) {
-                    console.log(error.response.data);
-                    console.log(error.response.status);
-                    console.log(error.response.headers);
+                    this.setState({serverResponse:error.response.data.message});
                 }
                 this.updateIsSlotSet();
             });
@@ -59,10 +59,10 @@ class GetTicket extends React.Component<{}, GetTicketState>{
     }
     
     render() {
-        const {vehicleNo, parkingSlot, isSlotSet} = this.state;
+        const {vehicleNo, parkingSlot, isSlotSet, serverResponse} = this.state;
         let message:string;
         if(parkingSlot === -1){
-            message = "The parking lot is full"
+            message = serverResponse
         }
         else{
             message = `Welcome ${this.state.vehicleNo}, your parking slot number is ${this.state.parkingSlot}`
