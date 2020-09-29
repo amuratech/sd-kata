@@ -22,14 +22,14 @@ class ParkingServiceTest {
         Vehicle vehicle3 = new Vehicle("MH 14 LK 1236");
         parkingLot.park(vehicle3);
 
-        assertThat(parkingLot.listVehicles().get(0).getSlotNo()).isEqualTo(1);
-        assertThat(parkingLot.listVehicles().get(0).getVehicle().getVehicleNo()).isEqualTo("MH 14 LK 1234");
+        assertThat(parkingLot.listSlots().get(0).getSlotNo()).isEqualTo(1);
+        assertThat(parkingLot.listSlots().get(0).getVehicle().getVehicleNo()).isEqualTo("MH 14 LK 1234");
 
-        assertThat(parkingLot.listVehicles().get(1).getSlotNo()).isEqualTo(2);
-        assertThat(parkingLot.listVehicles().get(1).getVehicle().getVehicleNo()).isEqualTo("MH 14 LK 1235");
+        assertThat(parkingLot.listSlots().get(1).getSlotNo()).isEqualTo(2);
+        assertThat(parkingLot.listSlots().get(1).getVehicle().getVehicleNo()).isEqualTo("MH 14 LK 1235");
 
-        assertThat(parkingLot.listVehicles().get(2).getSlotNo()).isEqualTo(3);
-        assertThat(parkingLot.listVehicles().get(2).getVehicle().getVehicleNo()).isEqualTo("MH 14 LK 1236");
+        assertThat(parkingLot.listSlots().get(2).getSlotNo()).isEqualTo(3);
+        assertThat(parkingLot.listSlots().get(2).getVehicle().getVehicleNo()).isEqualTo("MH 14 LK 1236");
 
     }
 

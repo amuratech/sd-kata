@@ -17,7 +17,7 @@ public class ParkingService {
 
     public List<ParkingSlot> getVehicles() {
 
-        return this.parkingLot.listVehicles();
+        return this.parkingLot.listSlots();
     }
 
     public ParkingSlot park(String vehicleNo) {
