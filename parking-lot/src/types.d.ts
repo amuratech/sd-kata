@@ -1,6 +1,10 @@
 type Slot = {
-    vehicleNo: string;
-    parkingSlot: number;
+    slotNo: number;
+    vehicle: Vehicle;
 };
+
+type Vehicle = {
+    vehicleNo: string;
+}
 
 type ToggleGetTicketPopUp = () => void;

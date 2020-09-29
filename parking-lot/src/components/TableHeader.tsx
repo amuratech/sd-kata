@@ -5,6 +5,7 @@ function TableHeader() {
         <tr>
             <th>Vehicle Number</th>
             <th>Slot Number</th>
+            <th>Action</th>
         </tr>
     )
 }

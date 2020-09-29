@@ -7,9 +7,9 @@ interface TableRowProps{
 function TableRow(props:TableRowProps) {
     return (
         <tr>
-            <td>{props.slot.vehicleNo}</td>
-            <td>{props.slot.parkingSlot}</td>
-            <td><button onClick={() => props.onExit(props.slot.vehicleNo, props.slot.parkingSlot)}>Exit</button></td>
+            <td>{props.slot.vehicle.vehicleNo}</td>
+            <td>{props.slot.slotNo}</td>
+            <td><button onClick={() => props.onExit(props.slot.vehicle.vehicleNo, props.slot.slotNo)}>Exit</button></td>
         </tr>
     )
 }

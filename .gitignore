@@ -22,4 +22,6 @@ parking-lot/npm-debug.log*
 parking-lot/yarn-debug.log*
 parking-lot/yarn-error.log*
 
-parking-lot/tmp
+parking-lot/css
+parking-lot/scss/*.css
+parking-lot/scss/*.css.map

@@ -1,7 +1,7 @@
 import React from 'react'
 import TableHeader from "./TableHeader"
 import TableRow from "./TableRow"
-import  '../css/ParkingTableStyles.css'
+import  '../scss/ParkingTableStyles.css'
 
 interface TableProps{
     slotList: Array<Slot>;
@@ -16,7 +16,7 @@ function ParkingTable(props:TableProps) {
                 {
                     props.slotList.map(slot => {
                         return (
-                            <TableRow key={slot.parkingSlot} slot={slot} onExit={props.onExit}/>
+                            <TableRow key={slot.slotNo} slot={slot} onExit={props.onExit}/>
                         )
                     })
                 }

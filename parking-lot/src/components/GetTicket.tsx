@@ -1,12 +1,12 @@
 import React from 'react'
-import '../css/GetTicketStyles.css'
+import '../scss/GetTicketStyles.css'
 import allocateSlot from '../Services/allocateSlot'
 
 
 interface GetTicketState{
     vehicleNo: string;
-    parkingSlot: number;
-    isSlotSet:boolean;
+    slotNo: number;
+    getTicketCalled:boolean;
     serverResponse: string;
 }
 
@@ -16,8 +16,8 @@ class GetTicket extends React.Component<{}, GetTicketState>{
     
         this.state = {
             vehicleNo:"",
-            parkingSlot:-1,
-            isSlotSet:false,
+            slotNo:-1,
+            getTicketCalled:false,
             serverResponse:""
         }
     }
@@ -32,43 +32,41 @@ class GetTicket extends React.Component<{}, GetTicketState>{
         allocateSlot(this.state.vehicleNo)
             .then(res => {
                 const returnedSlot:Slot = res.data;
-                this.updateTheSlotNumber(returnedSlot.parkingSlot);
+                this.updateTheSlotNumber(returnedSlot.slotNo);
+                console.log(returnedSlot.slotNo);
             })
             .catch((error) =>{
                 if (error.response) {
                     this.setState({serverResponse:error.response.data.message});
                 }
-                this.updateIsSlotSet();
+                this.updateGetTicketCalled();
             });
     }
     
     updateTheSlotNumber = (slotNumber:number) => {
         this.setState((prevState) => ({
-            vehicleNo: prevState.vehicleNo,
-            parkingSlot: slotNumber,
-            isSlotSet: true
+            slotNo: slotNumber,
+            getTicketCalled: true
         }))
     }
 
-    updateIsSlotSet = () =>{
+    updateGetTicketCalled = () =>{
         this.setState((prevState)=>({
-            vehicleNo: prevState.vehicleNo,
-            parkingSlot: prevState.parkingSlot,
-            isSlotSet: true
+            getTicketCalled: true
         }))
     }
     
     render() {
-        const {vehicleNo, parkingSlot, isSlotSet, serverResponse} = this.state;
+        const {vehicleNo, slotNo, getTicketCalled, serverResponse} = this.state;
         let message:string;
-        if(parkingSlot === -1){
+        if(slotNo === -1){
             message = serverResponse
         }
         else{
-            message = `Welcome ${this.state.vehicleNo}, your parking slot number is ${this.state.parkingSlot}`
+            message = `Welcome ${this.state.vehicleNo}, your parking slot number is ${this.state.slotNo}`
         }
         return (
-            isSlotSet ? 
+            getTicketCalled ? 
                 <h2>{message}</h2>
                 :<div className="popUpDiv">
                     <input type="text" placeholder="License plate number" value={vehicleNo} onChange={this.handleVehicleNoInput}/>

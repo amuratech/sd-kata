@@ -1,5 +1,5 @@
 import React from 'react'
-import '../css/ParkingDataStyles.css'
+import '../scss/ParkingDataStyles.css'
 
 import ParkingTable from "./ParkingTable"
 import PopUp from './PopUp'
@@ -62,7 +62,7 @@ class ParkingData extends React.Component<{}, ParkingDataState>{
     onExit = (vehicleNo:string, slotNo:number) => {
         exitSlot(vehicleNo).then( ()=> 
             this.setState((prevState) => ({
-                slotList: prevState.slotList.filter(slot => slot.parkingSlot != slotNo)
+                slotList: prevState.slotList.filter(slot => slot.slotNo != slotNo)
             }))
         ).catch(function(error){
             if (error.response) {
