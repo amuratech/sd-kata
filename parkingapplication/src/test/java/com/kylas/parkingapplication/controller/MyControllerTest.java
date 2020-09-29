@@ -115,7 +115,7 @@ public class MyControllerTest {
                         .param("vehicleNo", "111"))
                 .andExpect(status().isOk()).andReturn();
         String result = requestResult.getResponse().getContentAsString();
-        assertThat(result).isEqualTo("Vehicle unparked");
+        assertThat(result.contains("Vehicle Exit Done")).isEqualTo(true);
 
     }
 }
