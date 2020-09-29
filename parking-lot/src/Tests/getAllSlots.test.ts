@@ -7,10 +7,10 @@ const mockAxios = axios as jest.Mocked<typeof axios>;
 describe("getAllSlots testing", () => {
     it("get call returns all occupied slots", () => {
         mockAxios.get.mockImplementationOnce(() => Promise.resolve({
-            data:[{'vehicleNo': "MH24 1266", 'parkingSlot': 1}]
+            data:[{"slotNo":1,"vehicle":{"vehicleNo":"MH12 5623"}}]
         }))
         const response = getAllSlots();
-        response.then(res => {expect(res.data).toStrictEqual([{'vehicleNo': "MH24 1266", 'parkingSlot': 1}])})
+        response.then(res => {expect(res.data).toStrictEqual([{"slotNo":1,"vehicle":{"vehicleNo":"MH12 5623"}}])})
                 .catch(error => console.log(error))
         expect(mockAxios.get).toHaveBeenCalledTimes(1);
     });

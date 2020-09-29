@@ -7,9 +7,9 @@ import TableHeader from '../components/TableHeader';
 configure({adapter: new Adapter()});
 
 describe("ParkingData component testing", () => {
-    it("header should have two columns", () => {
+    it("header should have three columns", () => {
         const wrapper = shallow(<TableHeader />);
-        expect(wrapper.find("tr th")).toHaveLength(2);
+        expect(wrapper.find("tr th")).toHaveLength(3);
 
     });
 })

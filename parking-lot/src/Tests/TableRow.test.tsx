@@ -7,11 +7,15 @@ configure({adapter: new Adapter()});
 
 describe("ParkingData component testing", () => {
     it("header should have two columns", () => {
-        const slot = {
-            vehicleNo: "MH29 1233",
-            parkingSlot: 1
+        const Vehicle = {
+            vehicleNo: "MH29 1233" 
         }
-        const wrapper = shallow(<TableRow slot={slot}/>);
+        const slot = {
+            vehicle: Vehicle,
+            slotNo: 1
+        }
+        const onExit = (vehicleNo:string, slotNo:number) => {};
+        const wrapper = shallow(<TableRow slot={slot} onExit={onExit}/>);
         const element = wrapper.find("td");
         const vehicleNo = element.at(0).text();
         expect(vehicleNo).toBe("MH29 1233");
