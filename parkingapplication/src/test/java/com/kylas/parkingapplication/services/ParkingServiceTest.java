@@ -1,66 +1,76 @@
 package com.kylas.parkingapplication.services;
 
+import com.kylas.parkingapplication.entities.ParkingLot;
 import com.kylas.parkingapplication.entities.Vehicle;
-import com.kylas.parkingapplication.exceptions.ParkingLotException;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.util.ReflectionTestUtils;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.List;
-
-
-
-@SpringBootTest(classes = ParkingService.class)
 class ParkingServiceTest {
 
-    @Value("${slot}")
-    private int slots;
-
     @Test
-    public void givenCarNo_ShouldVehicle() {
-        ParkingService parkingService = new ParkingService();
-        ReflectionTestUtils.setField(
-                parkingService,
-                "parkingSlots",
-                slots);
-        Vehicle vehicle = parkingService.addVehicle("MH 14 LK 1234");
-        Assertions.assertThat(vehicle.getVehicleNo()).isEqualTo("MH 14 LK 1234");
+    public void getVehicles() {
+        ParkingLot parkingLot = new ParkingLot(3);
+        assertThat(parkingLot.size()).isEqualTo(0);
+
+        Vehicle vehicle1 = new Vehicle("MH 14 LK 1234");
+        parkingLot.park(vehicle1);
+
+        Vehicle vehicle2 = new Vehicle("MH 14 LK 1235");
+        parkingLot.park(vehicle2);
+
+        Vehicle vehicle3 = new Vehicle("MH 14 LK 1236");
+        parkingLot.park(vehicle3);
+
+        assertThat(parkingLot.listVehicles().get(0).getSlotNo()).isEqualTo(1);
+        assertThat(parkingLot.listVehicles().get(0).getVehicle().getVehicleNo()).isEqualTo("MH 14 LK 1234");
+
+        assertThat(parkingLot.listVehicles().get(1).getSlotNo()).isEqualTo(2);
+        assertThat(parkingLot.listVehicles().get(1).getVehicle().getVehicleNo()).isEqualTo("MH 14 LK 1235");
+
+        assertThat(parkingLot.listVehicles().get(2).getSlotNo()).isEqualTo(3);
+        assertThat(parkingLot.listVehicles().get(2).getVehicle().getVehicleNo()).isEqualTo("MH 14 LK 1236");
 
     }
 
     @Test
-    public void shouldReturnAllVehicle()  {
-        ParkingService parkingService = new ParkingService();
-        ReflectionTestUtils.setField(
-                parkingService,
-                "parkingSlots",
-                slots);
-         parkingService.addVehicle("MH 14 LK 1234");
-         parkingService.addVehicle("MH 14 LK 1235");
-        List<Vehicle> vehicles = parkingService.getVehicles();
-        Assertions.assertThat(vehicles.size()).isEqualTo(2);
+    public void park() {
+        ParkingLot parkingLot = new ParkingLot(3);
+        assertThat(parkingLot.size()).isEqualTo(0);
+
+        Vehicle vehicle1 = new Vehicle("MH 14 LK 1234");
+        parkingLot.park(vehicle1);
+        assertThat(parkingLot.size()).isEqualTo(1L);
+
+        Vehicle vehicle2 = new Vehicle("MH 14 LK 1235");
+        parkingLot.park(vehicle2);
+        assertThat(parkingLot.size()).isEqualTo(2L);
+
+        Vehicle vehicle3 = new Vehicle("MH 14 LK 1236");
+        parkingLot.park(vehicle3);
+        assertThat(parkingLot.size()).isEqualTo(3);
 
     }
 
     @Test
-    public void shouldExitVehicle()  {
-        ParkingService parkingService = new ParkingService();
-        ReflectionTestUtils.setField(
-                parkingService,
-                "parkingSlots",
-                slots);
-        parkingService.addVehicle("MH 14 LK 1234");
-        parkingService.addVehicle("MH 14 LK 1235");
-        parkingService.addVehicle("MH 14 LK 1236");
-        parkingService.addVehicle("MH 14 LK 1237");
-        String status = parkingService.deleteVehicle("MH 14 LK 1235");
-        Assertions.assertThat(status).isEqualTo("Vehicle exit");
+    public void unPark() {
+        ParkingLot parkingLot = new ParkingLot(3);
+        assertThat(parkingLot.size()).isEqualTo(0);
 
+        Vehicle vehicle1 = new Vehicle("MH 14 LK 1234");
+        parkingLot.park(vehicle1);
+        assertThat(parkingLot.size()).isEqualTo(1L);
+
+        Vehicle vehicle2 = new Vehicle("MH 14 LK 1235");
+        parkingLot.park(vehicle2);
+        assertThat(parkingLot.size()).isEqualTo(2L);
+
+        Vehicle vehicle3 = new Vehicle("MH 14 LK 1236");
+        parkingLot.park(vehicle3);
+        assertThat(parkingLot.size()).isEqualTo(3L);
+
+
+        assertThat(parkingLot.unPark(vehicle1)).isEqualTo(true);
+        assertThat(parkingLot.size()).isEqualTo(2L);
     }
-
-
-
 }

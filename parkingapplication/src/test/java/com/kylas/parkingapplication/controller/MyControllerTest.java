@@ -3,14 +3,13 @@ package com.kylas.parkingapplication.controller;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kylas.parkingapplication.entities.ParkingSlot;
 import com.kylas.parkingapplication.entities.Vehicle;
 import com.kylas.parkingapplication.services.ParkingService;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-
-
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +22,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -64,71 +63,59 @@ public class MyControllerTest {
 
     @Test
     public void testAddVehicle() throws Exception {
-        Vehicle vehicle = new Vehicle();
-        vehicle.setParkingSlot(1);
-        vehicle.setVehicleNo("MH 12 AJ 1234");
-        Mockito.when(parkingService.addVehicle(ArgumentMatchers.any())).thenReturn(vehicle);
-        String json = mapper.writeValueAsString(vehicle);
+        Vehicle mockVehicle1 = new Vehicle("111");
+        ParkingSlot slot = new ParkingSlot(1, mockVehicle1);
+
+
+        Mockito.when(parkingService.park(ArgumentMatchers.any())).thenReturn(slot);
+        String json = mapper.writeValueAsString(slot);
         mockMvc
                 .perform(
-                        post("/vehicles").queryParam("vehicleNo", vehicle.getVehicleNo()).contentType(MediaType.APPLICATION_JSON).characterEncoding("utf-8")
+                        post("/vehicles").queryParam("vehicleNo", mockVehicle1.getVehicleNo()).contentType(MediaType.APPLICATION_JSON).characterEncoding("utf-8")
                                 .content(json).accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
-                .andExpect(jsonPath("$.parkingSlot", Matchers.equalTo(1)))
-                .andExpect(jsonPath("$.vehicleNo", Matchers.equalTo("MH 12 AJ 1234")));
+                .andExpect(jsonPath("$.slotNo", Matchers.equalTo(1)))
+                .andExpect(jsonPath("$.vehicle.vehicleNo", Matchers.equalTo("111")));
     }
 
 
     @Test
     public void testGetVehicles() throws Exception {
+        Vehicle mockVehicle1 = new Vehicle("111");
+        Vehicle mockVehicle2 = new Vehicle("112");
+        ParkingSlot slot = new ParkingSlot(1, mockVehicle1);
+        ParkingSlot slot1 = new ParkingSlot(2, mockVehicle2);
 
-        Vehicle mockVehicle1 = new Vehicle();
-        mockVehicle1.setParkingSlot(1);
-        mockVehicle1.setVehicleNo("MH 24 AJ 1234");
-
-        Vehicle mockVehicle2 = new Vehicle();
-        mockVehicle2.setParkingSlot(2);
-        mockVehicle2.setVehicleNo("MH 24 AJ 1235");
-
-
-        List<Vehicle> vehicleList = new ArrayList<>();
-        vehicleList.add(mockVehicle1);
-        vehicleList.add(mockVehicle2);
+        List<ParkingSlot> vehicleList = new ArrayList<>();
+        vehicleList.add(slot);
+        vehicleList.add(slot1);
 
         Mockito.when(parkingService.getVehicles()).thenReturn(vehicleList);
 
-        //then
         mockMvc.perform(get("/vehicles"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", Matchers.hasSize(2)))
-                .andExpect(jsonPath("$[1].vehicleNo", Matchers.equalTo("MH 24 AJ 1235")));
-
+                .andExpect(jsonPath("$[1].slotNo", Matchers.equalTo(2)))
+                .andExpect(jsonPath("$[1].vehicle.vehicleNo", Matchers.equalTo("112")));
 
     }
 
-//    @Test
-//    public void testExitVehicles() throws Exception {
-//
-//        Vehicle mockVehicle1 = new Vehicle();
-//        mockVehicle1.setParkingSlot(1);
-//        mockVehicle1.setVehicleNo("MH 24 AJ 1234");
-//
-//        Vehicle mockVehicle2 = new Vehicle();
-//        mockVehicle2.setParkingSlot(2);
-//        mockVehicle2.setVehicleNo("MH 24 AJ 1235");
-//
-//
-//        List<Vehicle> vehicleList = new ArrayList<>();
-//        vehicleList.add(mockVehicle1);
-//        vehicleList.add(mockVehicle2);
-//
-//
-//        //then
-//        mockMvc.perform(delete("/vehicles"))
-//                .andExpect(status().isOk())
-//                 .accept(MediaType.APPLICATION_JSON))
-//                .andExpect()
-//
-//
-//    }
+    @Test
+    public void deleteVehicles() throws Exception {
+        Vehicle mockVehicle1 = new Vehicle("111");
+        Vehicle mockVehicle2 = new Vehicle("112");
+        ParkingSlot slot = new ParkingSlot(1, mockVehicle1);
+        ParkingSlot slot1 = new ParkingSlot(2, mockVehicle2);
 
+        List<ParkingSlot> vehicleList = new ArrayList<>();
+        vehicleList.add(slot);
+        vehicleList.add(slot1);
+        Mockito.when(parkingService.unPark(ArgumentMatchers.anyString())).thenReturn("Vehicle unparked");
+        MvcResult requestResult = mockMvc
+                .perform(delete("/vehicles")
+                        .param("vehicleNo", "111"))
+                .andExpect(status().isOk()).andReturn();
+        String result = requestResult.getResponse().getContentAsString();
+        assertThat(result).isEqualTo("Vehicle unparked");
+
+    }
 }
