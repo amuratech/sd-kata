@@ -23,10 +23,10 @@ public class ParkingLotTest {
     public void shouldParkNewVehicle() {
         ParkingLot parkingLot = new ParkingLot(5);
         Vehicle vehicle = new Vehicle("MH 12 AA 1234");
-        ParkingSlot currentSlot = parkingLot.park(vehicle);
+        ParkingTicket parkingTicket = parkingLot.park(vehicle);
         assertThat(parkingLot.isEmpty()).isFalse();
         assertThat(parkingLot.size()).isEqualTo(1);
-        assertThat(currentSlot.getSlotNo()).isEqualTo(1);
+        assertThat(parkingTicket.getSlotNo()).isEqualTo(1);
 
     }
 
@@ -34,14 +34,14 @@ public class ParkingLotTest {
     public void shouldParkTwoVehicles() {
         ParkingLot parkingLot = new ParkingLot(5);
         Vehicle vehicle = new Vehicle("MH 12 AA 1234");
-        ParkingSlot currentSlot = parkingLot.park(vehicle);
+        ParkingTicket parkingTicket = parkingLot.park(vehicle);
         Vehicle vehicle2 = new Vehicle("MH 12 AA 1235");
-        ParkingSlot currentSlot1 = parkingLot.park(vehicle2);
+        ParkingTicket parkingTicket1 = parkingLot.park(vehicle2);
 
         assertThat(parkingLot.isEmpty()).isFalse();
         assertThat(parkingLot.size()).isEqualTo(2);
-        assertThat(currentSlot.getSlotNo()).isEqualTo(1);
-        assertThat(currentSlot1.getSlotNo()).isEqualTo(2);
+        assertThat(parkingTicket.getSlotNo()).isEqualTo(1);
+        assertThat(parkingTicket1.getSlotNo()).isEqualTo(2);
 
     }
 
@@ -97,9 +97,9 @@ public class ParkingLotTest {
         parkingLot.park(vehicle4);
         parkingLot.park(vehicle5);
         assertThat(parkingLot.size()).isEqualTo(6);
-        boolean status = parkingLot.unPark(vehicle2);
+        ParkingTicket parkingTicket = parkingLot.unPark(vehicle2);
         assertThat(parkingLot.size()).isEqualTo(5);
-        boolean status1 = parkingLot.unPark(vehicle4);
+        ParkingTicket parkingTicket1= parkingLot.unPark(vehicle4);
         assertThat(parkingLot.size()).isEqualTo(4);
     }
 

@@ -1,20 +1,30 @@
 package com.kylas.parkingapplication.entities;
 
 import com.kylas.parkingapplication.exceptions.ParkingLotException;
+import com.kylas.parkingapplication.repository.ParkingTicketRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static com.kylas.parkingapplication.exceptions.ParkingLotException.ExceptionType.*;
 
 public class ParkingLot {
+    @Autowired
+    private ParkingTicketRepository parkingTicketRepository;
 
+    private final List<ParkingTicket> parkingTicketList = new ArrayList<>();
     private final int capacity;
     private final List<ParkingSlot> slots;
+
+
+
 
     public ParkingLot(int capacity) {
         this.capacity = capacity;
         slots = new ArrayList<>();
+
 
     }
 
@@ -26,14 +36,22 @@ public class ParkingLot {
         return (slots.size() < capacity);
     }
 
-    public ParkingSlot park(Vehicle vehicle) {
+    public ParkingTicket park(Vehicle vehicle) {
         if (!isSlotAvailable())
             throw new ParkingLotException("Parking Lot is Full", NO_PARKING_AVAILABLE);
 
         int slotNo = getAvailableSlotNo();
+
+
         ParkingSlot parkingSlot = new ParkingSlot(slotNo, vehicle);
+
+
+        ParkingTicket parkingTicket = new ParkingTicket(parkingSlot, new Date());
+
+
+        parkingTicketList.add(parkingTicket);
         slots.add(parkingSlot);
-        return parkingSlot;
+        return parkingTicket;
     }
 
     private int getAvailableSlotNo() {
@@ -50,8 +68,8 @@ public class ParkingLot {
         return slots.size();
     }
 
-    public List<ParkingSlot> listSlots() {
-        return slots;
+    public List<ParkingTicket> listSlots() {
+        return parkingTicketList;
     }
 
     public int getParkingSlot(Vehicle vehicle) {
@@ -62,7 +80,7 @@ public class ParkingLot {
         return foundSlot.getSlotNo();
     }
 
-    public boolean unPark(Vehicle vehicle) {
+    public ParkingTicket unPark(Vehicle vehicle) {
         if (isEmpty()) {
             throw new ParkingLotException("Slot is Empty", SLOT_IS_EMPTY);
         }
@@ -70,109 +88,16 @@ public class ParkingLot {
                 .filter(parkingSlot -> parkingSlot.getVehicle().getVehicleNo().equals(vehicle.getVehicleNo()))
                 .findFirst()
                 .orElseThrow(() -> new ParkingLotException("Vehicle not found.", NO_VEHICLE));
-        return slots.remove(foundSlot);
-    }
-}
 
-
-
-
-/*
-
-This code also works but it is not optimized
-
-package com.kylas.parkingapplication.entities;
-
-import com.kylas.parkingapplication.exceptions.ParkingLotException;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static com.kylas.parkingapplication.exceptions.ParkingLotException.ExceptionType.*;
-
-public class ParkingLot {
-
-
-    private final int capacity;
-    private final List<ParkingSlot> slots;
-
-    public ParkingLot(int capacity) {
-        this.capacity = capacity;
-        slots = new ArrayList<>(capacity);
-        for (int i = 0; i < capacity; i++) {
-            slots.add(new ParkingSlot(i + 1, null)); // lots are added in slot
-        }
-    }
-
-    public boolean isEmpty() {
-        return slots.stream().allMatch(parkingSlot -> parkingSlot.getVehicle() == null);
-    }
-
-    public boolean isSlotAvailable() {
-        for (int i = 0; i < capacity; i++) {
-            ParkingSlot currentSlot = slots.get(i);
-            if (currentSlot.getVehicle() == null)
-                return true;
-        }
-
-        return false;
-    }
-
-    public ParkingSlot park(Vehicle vehicle) {
-        if (!isSlotAvailable())
-            throw new ParkingLotException("Parking Lot is Full", NO_PARKING_AVAILABLE);
-
-        for (int i = 0; i < capacity; i++) {
-
-            ParkingSlot currentSlot = slots.get(i);
-
-            if (currentSlot.getVehicle() == null) {
-                currentSlot.park(vehicle);
-                return currentSlot;
-            }
-        }
-        return null;
-    }
-
-    public long size() {
-        return slots.stream().filter(parkingSlot -> parkingSlot.getVehicle() != null).count();
-    }
-
-    public List<ParkingSlot> listVehicles() {
-
-        return slots.stream()
-                .filter(parkingSlot -> parkingSlot.getVehicle() != null).collect(Collectors.toList());
-
-    }
-
-    public int getParkingSlot(Vehicle vehicle) {
-        ParkingSlot foundSlot = slots.stream()
-                .filter(parkingSlot -> parkingSlot.getVehicle().getVehicleNo().equals(vehicle.getVehicleNo()))
-                .findAny()
+        ParkingTicket currentTicket = parkingTicketList.stream()
+                .filter(parkingTicket -> parkingTicket.getVehicleNo().equals(foundSlot.getVehicle().getVehicleNo()))
+                .reduce((first, second) -> second)
                 .orElseThrow(() -> new ParkingLotException("Vehicle not found.", NO_VEHICLE));
-        return foundSlot.getSlotNo();
+
+        currentTicket.updateTicketStatus(new Date());
+
+        slots.remove(foundSlot);
+
+       return currentTicket;
     }
-
-    public boolean unPark(Vehicle vehicle) {
-        if (isEmpty()) {
-            throw new ParkingLotException("Slot is Empty", SLOT_IS_EMPTY);
-        } else {
-            for (int i = 0; i < capacity; i++) {
-
-                ParkingSlot currentSlot = slots.get(i);
-
-                if (currentSlot.getVehicle() != null && currentSlot.getVehicle().getVehicleNo().equals(vehicle.getVehicleNo())) {
-                    currentSlot.unPark(currentSlot.getVehicle());
-                    return true;
-                }
-            }
-        }
-        throw new ParkingLotException("Vehicle not found.", NO_VEHICLE);
-    }
-
 }
-
- */
-
-

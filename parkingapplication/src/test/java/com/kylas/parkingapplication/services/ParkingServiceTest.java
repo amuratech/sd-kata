@@ -1,6 +1,7 @@
 package com.kylas.parkingapplication.services;
 
 import com.kylas.parkingapplication.entities.ParkingLot;
+import com.kylas.parkingapplication.entities.ParkingTicket;
 import com.kylas.parkingapplication.entities.Vehicle;
 import org.junit.jupiter.api.Test;
 
@@ -23,13 +24,13 @@ class ParkingServiceTest {
         parkingLot.park(vehicle3);
 
         assertThat(parkingLot.listSlots().get(0).getSlotNo()).isEqualTo(1);
-        assertThat(parkingLot.listSlots().get(0).getVehicle().getVehicleNo()).isEqualTo("MH 14 LK 1234");
+        assertThat(parkingLot.listSlots().get(0).getVehicleNo()).isEqualTo("MH 14 LK 1234");
 
         assertThat(parkingLot.listSlots().get(1).getSlotNo()).isEqualTo(2);
-        assertThat(parkingLot.listSlots().get(1).getVehicle().getVehicleNo()).isEqualTo("MH 14 LK 1235");
+        assertThat(parkingLot.listSlots().get(1).getVehicleNo()).isEqualTo("MH 14 LK 1235");
 
         assertThat(parkingLot.listSlots().get(2).getSlotNo()).isEqualTo(3);
-        assertThat(parkingLot.listSlots().get(2).getVehicle().getVehicleNo()).isEqualTo("MH 14 LK 1236");
+        assertThat(parkingLot.listSlots().get(2).getVehicleNo()).isEqualTo("MH 14 LK 1236");
 
     }
 
@@ -68,9 +69,10 @@ class ParkingServiceTest {
         Vehicle vehicle3 = new Vehicle("MH 14 LK 1236");
         parkingLot.park(vehicle3);
         assertThat(parkingLot.size()).isEqualTo(3L);
+        ParkingTicket parkingTicket=parkingLot.unPark(vehicle2);
 
-
-        assertThat(parkingLot.unPark(vehicle1)).isEqualTo(true);
         assertThat(parkingLot.size()).isEqualTo(2L);
     }
+
+
 }

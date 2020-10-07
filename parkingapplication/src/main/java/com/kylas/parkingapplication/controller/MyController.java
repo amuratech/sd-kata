@@ -1,6 +1,6 @@
 package com.kylas.parkingapplication.controller;
 
-import com.kylas.parkingapplication.entities.ParkingSlot;
+import com.kylas.parkingapplication.entities.ParkingTicket;
 import com.kylas.parkingapplication.services.ParkingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,12 +25,12 @@ public class MyController {
     }
 
     @GetMapping("/vehicles")
-    public List<ParkingSlot> getVehicles() {
+    public List<ParkingTicket> getVehicles() {
         return this.parkingService.getVehicles();
     }
 
     @PostMapping("/vehicles")
-    public ParkingSlot addVehicle(@RequestParam(value = "vehicleNo") String vehicleNo) {
+    public ParkingTicket addVehicle(@RequestParam(value = "vehicleNo") String vehicleNo) {
         return this.parkingService.park(vehicleNo);
     }
 

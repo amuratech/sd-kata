@@ -1,8 +1,10 @@
 package com.kylas.parkingapplication.services;
 
 import com.kylas.parkingapplication.entities.ParkingLot;
-import com.kylas.parkingapplication.entities.ParkingSlot;
+import com.kylas.parkingapplication.entities.ParkingTicket;
 import com.kylas.parkingapplication.entities.Vehicle;
+import com.kylas.parkingapplication.repository.ParkingTicketRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,26 +13,30 @@ import java.util.List;
 @Service
 public class ParkingService {
 
+    @Autowired
+    private ParkingTicketRepository parkingTicketRepository;
 
     private final ParkingLot parkingLot = new ParkingLot(10);
 
 
-    public List<ParkingSlot> getVehicles() {
+    public List<ParkingTicket> getVehicles() {
 
-        return this.parkingLot.listSlots();
+     // return parkingTicketRepository.findAll();
+      return parkingLot.listSlots();
     }
 
-    public ParkingSlot park(String vehicleNo) {
+    public ParkingTicket park(String vehicleNo) {
         Vehicle vehicle = new Vehicle(vehicleNo);
-        return this.parkingLot.park(vehicle);
+
+        ParkingTicket ticket = this.parkingLot.park(vehicle);
+        parkingTicketRepository.save(ticket);
+        return ticket;
     }
 
     public String unPark(String vehicleNo) {
         Vehicle vehicle = new Vehicle(vehicleNo);
-        if (this.parkingLot.unPark(vehicle)) {
-            return "Vehicle unparked";
-        }
-        return "Vehicle not unparked";
+        ParkingTicket parkingTicket = this.parkingLot.unPark(vehicle);
+        parkingTicketRepository.save(parkingTicket);
+        return "Vehicle Exit done";
     }
 }
-
